@@ -7,6 +7,7 @@ import org.odin.aggregatedfollowers.AggregatedFollowersRepository;
 import org.odin.aggregatedfollowers.ConcatEagerFollowersRepository;
 import org.odin.aggregatedfollowers.ConcatMapFollowersRepository;
 import org.odin.aggregatedfollowers.FlatMapFollowersRepository;
+import org.odin.aggregatedfollowers.FlatMapWithManualOrderFollowersRepository;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,9 +47,27 @@ public class FollowersRepositoryTest {
   }
 
   @Test
+  public void getFollowersWithFlatMap() {
+    List<AggregatedFollower> aggregatedFollowers = getAggregatedFollowers(
+        new FlatMapFollowersRepository()
+    );
+
+    thenAggregatedFollowersAreTheExpectedInAnyOrder(aggregatedFollowers);
+  }
+
+  @Test
   public void getFollowersWithConcatMap() {
     List<AggregatedFollower> aggregatedFollowers = getAggregatedFollowers(
         new ConcatMapFollowersRepository()
+    );
+
+    thenAggregatedFollowersAreTheExpectedInTheSameOrder(aggregatedFollowers);
+  }
+
+  @Test
+  public void getFollowersWithFlatMapAndCustomOrdering() {
+    List<AggregatedFollower> aggregatedFollowers = getAggregatedFollowers(
+        new FlatMapWithManualOrderFollowersRepository()
     );
 
     thenAggregatedFollowersAreTheExpectedInTheSameOrder(aggregatedFollowers);
@@ -61,15 +80,6 @@ public class FollowersRepositoryTest {
     );
 
     thenAggregatedFollowersAreTheExpectedInTheSameOrder(aggregatedFollowers);
-  }
-
-  @Test
-  public void getFollowersWithFlatMap() {
-    List<AggregatedFollower> aggregatedFollowers = getAggregatedFollowers(
-        new FlatMapFollowersRepository()
-    );
-
-    thenAggregatedFollowersAreTheExpectedInAnyOrder(aggregatedFollowers);
   }
 
   private List<AggregatedFollower> getAggregatedFollowers(AggregatedFollowersRepository repository) {

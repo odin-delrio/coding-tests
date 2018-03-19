@@ -8,6 +8,7 @@ import org.odin.aggregatedfollowers.ConcatEagerFollowersRepository;
 import org.odin.aggregatedfollowers.ConcatMapFollowersRepository;
 import org.odin.aggregatedfollowers.FlatMapFollowersRepository;
 import org.odin.aggregatedfollowers.FlatMapWithManualOrderFollowersRepository;
+import org.odin.aggregatedfollowers.LimitedConcatEagerFollowersRepository;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,6 +78,15 @@ public class FollowersRepositoryTest {
   public void getFollowersWithConcatEager() {
     List<AggregatedFollower> aggregatedFollowers = getAggregatedFollowers(
         new ConcatEagerFollowersRepository()
+    );
+
+    thenAggregatedFollowersAreTheExpectedInTheSameOrder(aggregatedFollowers);
+  }
+
+  @Test
+  public void getFollowersWithLimitedConcatEager() {
+    List<AggregatedFollower> aggregatedFollowers = getAggregatedFollowers(
+        new LimitedConcatEagerFollowersRepository()
     );
 
     thenAggregatedFollowersAreTheExpectedInTheSameOrder(aggregatedFollowers);

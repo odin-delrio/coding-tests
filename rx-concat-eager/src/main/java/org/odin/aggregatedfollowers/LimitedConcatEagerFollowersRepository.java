@@ -19,6 +19,8 @@ public class LimitedConcatEagerFollowersRepository implements AggregatedFollower
                 .map(publicProfile -> new AggregatedFollower(follower, publicProfile))
                 .toFlowable(),
             2,
+            // There is no overload with only the maxConcurrency, so,
+            // I simply wrote the default value for the prefetch parameter.
             Flowable.bufferSize()
         );
   }
